@@ -23,21 +23,22 @@ const inputReducer = (state, action) => {
 
 const Input = props => {
     const [inputState, dispatch] = useReducer(inputReducer, {
-        value: '',
+        value: props.value || '',
         isTouched: false,
-        isValid: false
+        isValid: props.valid || false
     });
 
     const { id, onInput } = props;
     const { value, isValid } = inputState;
 
+    //useEffect? -> function with an array of dependencies that trigger the function, onInput also must be imported
     useEffect(() => {
         onInput(
             id,
             value,
             isValid
         )
-    }, [id, onInput, value, isValid]); 
+    }, [id, onInput, value, isValid]);
 
     const changeHandler = event => {
         dispatch({ type: 'CHANGE', val: event.target.value, validators: props.validators });
