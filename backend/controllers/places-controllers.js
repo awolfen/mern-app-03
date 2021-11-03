@@ -50,58 +50,65 @@ const getPlacesByUserId = async (req, res, next) => {
 const createPlace = async (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return next(
-            new HttpError('Invalid inputs passed, please check your data.', 422)
-        );
+      return next(
+        new HttpError('Invalid inputs passed, please check your data.', 422)
+      );
     }
-
-    const { title, description, address, creator } = req.body; //shortcut for i.e. const title = req.body.title; etc...
+  
+    const { title, description, address, creator } = req.body;
+  
     let coordinates;
     try {
-        coordinates = await getCoordsForAddress(address);
+      coordinates = await getCoordsForAddress(address);
     } catch (error) {
-        return next(error);
+      return next(error);
     }
-
+  
     const createdPlace = new Place({
-        title,
-        description,
-        address,
-        location: coordinates,
-        image: 'https://images-geeknative-com.exactdn.com/wp-content/uploads/2012/03/02003219/baldursgata.jpg?strip=all&lossy=1&ssl=1',
-        creator
+      title,
+      description,
+      address,
+      location: coordinates,
+      image:
+        'https://images-geeknative-com.exactdn.com/wp-content/uploads/2012/03/02003219/baldursgata.jpg?strip=all&lossy=1&ssl=1', // => File Upload module, will be replaced with real image url
+      creator
     });
-
+  
     let user;
     try {
-        user = await User.findById(creator);
+      user = await User.findById(creator);
     } catch (err) {
-        return next(
-            new HttpError('Something went wrong, could not find user.', 500)
-        );
+      const error = new HttpError(
+        'Something went wrong, could not find user.',
+        500
+      );
+      return next(error);
     }
-
+  
     if (!user) {
-        return next(
-            new HttpError('Could not create place, user ID invalid.', 404)
-        );
+      const error = new HttpError('Could not find user for provided id.', 404);
+      return next(error);
     }
-
+  
+    console.log(user);  
+  
     try {
-        const sess = await mongoose.startSession();
-        sess.startTransaction(); // sets up a session to ensure all commands are carried out without error, otherwise all commands are rolled back
-        await createdPlace.save({ session: sess });
-        user.places.push(createdPlace); // specific mongoose 'push' - only adds the id
-        await user.save({ session: sess });
-        await sess.commitTransaction();
+      const sess = await mongoose.startSession();
+      sess.startTransaction();
+      await createdPlace.save({ session: sess }); 
+      user.places.push(createdPlace); 
+      await user.save({ session: sess }); 
+      await sess.commitTransaction();
     } catch (err) {
-        return next(
-            new HttpError('Creating place failed, please try again.', 500)
-        );
+      const error = new HttpError(
+        'Creating place failed, please try again.',
+        500
+      );
+      return next(error);
     }
-
+  
     res.status(201).json({ place: createdPlace });
-};
+  };
 
 const updatePlace = async (req, res, next) => {
     const errors = validationResult(req);

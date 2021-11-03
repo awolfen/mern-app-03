@@ -37,7 +37,7 @@ app.use((error, req, res, next) => {
 });
 
 mongoose
-    .connect(`mongodb+srv://${MONGO_NAME}:${MONGO_PASSWORD}@merncoursecluster.vjw8x.mongodb.net/mern?retryWrites=true&w=majority`)
+    .connect(`mongodb+srv://${MONGO_NAME}:${MONGO_PASSWORD}@merncoursecluster.vjw8x.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`)
     .then(() => {
         app.listen(5000);
     })

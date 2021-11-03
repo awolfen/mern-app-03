@@ -13,17 +13,16 @@ router.get('/users/:uid', placesControllers.getPlacesByUserId);
 router.post(
     '/',
     [
-        check('title')
-            .not()
-            .isEmpty(),
-        check('description')
-            .isLength({ min: 5 }),
-        check('address')
-            .not()
-            .isEmpty()
+      check('title')
+        .not()
+        .isEmpty(),
+      check('description').isLength({ min: 5 }),
+      check('address')
+        .not()
+        .isEmpty()
     ],
     placesControllers.createPlace
-);
+  );
 
 router.patch(
     '/:pid',
