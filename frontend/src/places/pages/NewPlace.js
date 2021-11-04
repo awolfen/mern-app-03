@@ -33,12 +33,6 @@ const NewPlace = () => {
 
     const placeSubmitHandler = async event => {
         event.preventDefault();
-        console.log({
-            title: formState.inputs.title.value,
-            description: formState.inputs.description.value,
-            address: formState.inputs.address.value,
-            creator: auth.userId
-        });
         try {
             await sendRequest(
                 'http://localhost:5000/api/places',
