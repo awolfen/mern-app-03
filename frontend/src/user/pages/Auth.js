@@ -1,14 +1,18 @@
 import React, { useContext, useState } from 'react';
+
 import { useForm } from '../../shared/hooks/form-hook';
+import { useHttpClient } from '../../shared/hooks/http-hook';
 import { VALIDATOR_EMAIL, VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from '../../shared/util/validators';
-import './Auth.css';
+import { AuthContext } from '../../shared/context/auth-context';
+
 import Button from '../../shared/components/FormElements/Button';
 import Input from '../../shared/components/FormElements/Input';
 import Card from '../../shared/components/UIElements/Card';
-import { AuthContext } from '../../shared/context/auth-context';
 import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
 import ErrorModal from '../../shared/components/UIElements/ErrorModal';
-import { useHttpClient } from '../../shared/hooks/http-hook';
+import ImageUpload from '../../shared/components/FormElements/ImageUpload';
+
+import './Auth.css';
 
 const Auth = () => {
     const auth = useContext(AuthContext);
@@ -112,9 +116,9 @@ const Auth = () => {
                             validators={[VALIDATOR_REQUIRE()]}
                             errorText="Please enter a name."
                             onInput={inputHandler}
-                        >
-                        </Input>
+                        />
                     )}
+                    {!isLoginMode && <ImageUpload center id="image" />}
                     <Input
                         id="email"
                         element="input"
