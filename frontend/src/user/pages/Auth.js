@@ -40,7 +40,8 @@ const Auth = () => {
             setFormData(
                 {
                     ...formState.inputs,
-                    name: undefined
+                    name: undefined,
+                    image: undefined
                 },
                 formState.inputs.email.isValid && formState.inputs.password.isValid);
         } else {
@@ -49,6 +50,10 @@ const Auth = () => {
                     ...formState.inputs,
                     name: {
                         value: '',
+                        isValid: false
+                    },
+                    image: {
+                        value: null,
                         isValid: false
                     }
                 },
@@ -118,7 +123,7 @@ const Auth = () => {
                             onInput={inputHandler}
                         />
                     )}
-                    {!isLoginMode && <ImageUpload center id="image" />}
+                    {!isLoginMode && <ImageUpload center id="image" onInput={inputHandler} />}
                     <Input
                         id="email"
                         element="input"
@@ -137,8 +142,8 @@ const Auth = () => {
                         errorText={isLoginMode ? "Please enter a password." : "Your password must be at least 6 characters long."}
                         onInput={inputHandler}
                     />
-                    <Button inverse onClick={loginModeHandler}>{`switch to ${isLoginMode ? "sign up" : "login"}`}</Button>
                     <Button type="submit" disabled={!formState.isValid}>{isLoginMode ? "LOGIN" : "SIGN UP"}</Button>
+                    <Button inverse onClick={loginModeHandler}>{`switch to ${isLoginMode ? "sign up" : "login"}`}</Button>
                 </form>
             </Card>
         </React.Fragment>
