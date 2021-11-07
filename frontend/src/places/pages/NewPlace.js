@@ -8,6 +8,7 @@ import { VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from '../../shared/util/valida
 import { useForm } from '../../shared/hooks/form-hook';
 import { useHttpClient } from '../../shared/hooks/http-hook';
 import { AuthContext } from '../../shared/context/auth-context';
+import ImageUpload from '../../shared/components/FormElements/ImageUpload';
 import './PlaceForm.css';
 
 const NewPlace = () => {
@@ -17,6 +18,10 @@ const NewPlace = () => {
         {
             title: {
                 value: '',
+                isValid: false
+            },
+            image: {
+                value: null,
                 isValid: false
             },
             description: {
@@ -33,17 +38,17 @@ const NewPlace = () => {
 
     const placeSubmitHandler = async event => {
         event.preventDefault();
+        const formData = new FormData();
+        formData.append('title', formState.inputs.title.value);
+        formData.append('image', formState.inputs.image.value);
+        formData.append('description', formState.inputs.description.value);
+        formData.append('address', formState.inputs.address.value);
+        formData.append('creator', auth.userId);
         try {
             await sendRequest(
                 'http://localhost:5000/api/places',
                 'POST',
-                JSON.stringify({
-                    title: formState.inputs.title.value,
-                    description: formState.inputs.description.value,
-                    address: formState.inputs.address.value,
-                    creator: auth.userId
-                }),
-                { 'Content-Type': 'application/json' }
+                formData
             );
             //redirect user to new page
         } catch (err) {
@@ -66,6 +71,7 @@ const NewPlace = () => {
                     errorText="Please enter a valid title."
                     onInput={inputHandler}
                 />
+                <ImageUpload center id="image" onInput={inputHandler} errorText="Please provide an image." />
                 <Input
                     id="description"
                     element="textarea"
