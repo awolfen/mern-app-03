@@ -81,8 +81,9 @@ const Auth = () => {
                         'Content-Type': 'application/json'
                     }
                 );
-                auth.login(responseData.user.id);
+                auth.login(responseData.userId, responseData.token);
             } catch (err) {
+                console.log(err);
                 // empty catch block as errors are handled in sendRequest, this simply ensures no login on error
             }
         } else {
@@ -97,8 +98,9 @@ const Auth = () => {
                     'POST',
                     formData // headers automatically handled by fetch
                 );
-                auth.login(responseData.user.id);
+                auth.login(responseData.userId, responseData.token);
             } catch (err) {
+                console.log(err);
                 // empty catch block as errors are handled in sendRequest, this simply ensures no login on error
             }
         }
