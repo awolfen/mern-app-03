@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import { useHistory } from 'react-router';
 
 import Button from '../../shared/components/FormElements/Button';
 import Input from '../../shared/components/FormElements/Input';
@@ -36,6 +37,8 @@ const NewPlace = () => {
         false
     );
 
+    const history = useHistory();
+
     const placeSubmitHandler = async event => {
         event.preventDefault();
         const formData = new FormData();
@@ -53,7 +56,7 @@ const NewPlace = () => {
                     Authorization: `Bearer ${auth.token}`
                 }
             );
-            //redirect user to new page
+            history.push('/');
         } catch (err) {
             console.log(err);
         }

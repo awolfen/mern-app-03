@@ -129,6 +129,13 @@ const updatePlace = async (req, res, next) => {
         );
     }
 
+    // ensure only logged in creator can edit their own places
+    if (place.creator.toString() !== req.userData.userId) {
+        return next(
+            new HttpError('Invalid credentials, you cannot edit this place.', 401)
+        );
+    }
+
     place.title = title;
     place.description = description;
 
@@ -158,6 +165,13 @@ const deletePlace = async (req, res, next) => {
     if (!place) {
         return next(
             new HttpError('Something went wrong, could not find place for placeId.', 404)
+        );
+    }
+
+    // ensure only logged in creator can delete their own places
+    if (place.creator.id !== req.userData.userId) {
+        return next(
+            new HttpError('Invalid credentials, you cannot delete this place.', 401)
         );
     }
 
