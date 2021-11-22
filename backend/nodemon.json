@@ -1,9 +1,0 @@
-{
-  "env": {
-    "DB_USER": "Alfie",
-    "DB_PASSWORD": "12Bananas",
-    "DB_NAME": "MernCourse",
-    "GOOGLE_API_KEY": "IzaSyCvI_p2jGi2Yqb1xiFbYmFyp4Lg4SKaZEY",
-    "JWT_KEY": "special_dont_share"
-  }
-}
