@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useParams } from 'react-router';
+import { useHistory, useParams } from 'react-router';
 
 import Button from '../../shared/components/FormElements/Button';
 import Input from '../../shared/components/FormElements/Input';
@@ -31,6 +31,8 @@ const UpdatePlace = () => {
         },
         false
     );
+
+    const history = useHistory();
 
     //here useEffect prevents setFormData from an infitie loop when it changes the state
     useEffect(() => {
@@ -72,6 +74,7 @@ const UpdatePlace = () => {
                     Authorization: 'Bearer ' + auth.token
                 }
             );
+            history.push('/places');
         } catch (err) {
             console.log(err);
         }

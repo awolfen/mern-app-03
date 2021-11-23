@@ -26,6 +26,8 @@ export const useHttpClient = () => {
                     reqCtrl => reqCtrl !== httpAbortCtrl //clean up controllers to completed requests
                 );
 
+                console.log(responseData);
+
                 if (!response.ok) {
                     throw new Error(responseData.message);
                 }
